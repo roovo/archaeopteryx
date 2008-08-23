@@ -25,7 +25,7 @@ def fill_drums
   fill = []
   (36..45).each do |midi_note_number|
     fill << Drum.new(:note => note(midi_note_number, [2,3][rand(2)]),
-                      :when => L{|beat| false},
+                      :base_strategy => L{|beat| false},
                       :number_generator => L{rand},
                       :next => L{|queue| queue[rand(queue.size)]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
@@ -37,7 +37,7 @@ def main_drums
   main = []
   (36..45).each do |midi_note_number|
     main << Drum.new(:note => note(midi_note_number),
-                      :when => L{|beat| false},
+                      :base_strategy => L{|beat| false},
                       :number_generator => L{0.8},
                       :next => L{|queue| queue[queue.size - 1]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
@@ -49,7 +49,7 @@ def alt_drums
   alt = []
   (36..45).each do |midi_note_number|
     alt << Drum.new(:note => note(midi_note_number),
-                      :when => L{|beat| false},
+                      :base_strategy => L{|beat| false},
                       :number_generator => L{0.9},
                       :next => L{|queue| queue[queue.size - 1]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])

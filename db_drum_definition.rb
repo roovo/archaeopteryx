@@ -43,12 +43,12 @@ end
 
 notes = []
 (36..45).each do |midi_note_number|
-  notes << Drum.new(:note => note(midi_note_number),
-                    :when => L{|beat| false},
-                    # :number_generator => L{0.3},
-                    :next => L{|queue| queue[queue.size - 1]},
-                    :number_generator => L{rand},
-                    # :next => L{|queue| queue[rand(queue.size)]},
-                    :probabilities => probabilities[midi_note_number] || probabilities[:none])
+  notes << Drum.new(:note               => note(midi_note_number),
+                    :base_strategy      => L{|beat| false},
+                    :number_generator   => L{0.3},
+                    :next               => L{|queue| queue[queue.size - 1]},
+                    # :number_generator   => L{rand},
+                    # :next               => L{|queue| queue[rand(queue.size)]},
+                    :probabilities      => probabilities[midi_note_number] || probabilities[:none])
 end
 notes

@@ -24,7 +24,7 @@ end
 notes = []
 (36..45).each do |midi_note_number|
   notes << Drum.new(:note => note(midi_note_number),
-                    :when => L{|beat| false},
+                    :base_strategy => L{|beat| false},
                     # :number_generator => L{rand},
                     # :next => L{|queue| queue[queue.size - 1]},
                     :number_generator => L{rand},

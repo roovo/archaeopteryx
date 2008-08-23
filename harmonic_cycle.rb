@@ -14,7 +14,7 @@ end
 
 notes = []
 bass = Drum.new(:note => note(root - 36, 1),
-                :when => L{|beat| false},
+                :base_strategy => L{|beat| false},
                 :next => L{|queue| queue[queue.size - 1]},
                 :number_generator => L{rand},
                 :probabilities => [1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0])
@@ -22,7 +22,7 @@ notes << bass
 
 MAJOR_TRIAD.each do |number|
   notes << Drum.new(:note => note(root + number, 2),
-                    :when => L{|beat| false},
+                    :base_strategy => L{|beat| false},
                     :next => L{|queue| queue[queue.size - 1]},
                     :number_generator => L{rand},
                     :probabilities => [1.0] + [0.0] * 15)

@@ -1,13 +1,13 @@
 module Archaeopteryx
   class Drum
-    attr_accessor :note, :probabilities, :when, :next, :number_generator
+    attr_accessor :note, :probabilities, :base_strategy, :next, :number_generator
     
     def initialize(attributes)
-      %w{note probabilities when next number_generator}.each do |attribute|
+      %w{note probabilities base_strategy next number_generator}.each do |attribute|
         eval("@#{attribute} = attributes[:#{attribute}]")
       end
-      @queue = [attributes[:when]]
-      generate
+      @strategies = [attributes[:base_strategy]]
+      generate_probability_strategy
     end
     
     # TODO: tell don't ask...
@@ -15,14 +15,14 @@ module Archaeopteryx
       @when[beat]
     end
     
-    def generate
+    def generate_probability_strategy
       beats_on_which_to_play = []
       @probabilities.each_with_index do |probability, index|
         beats_on_which_to_play << index if @number_generator[] <= probability
       end
-      @queue << L{ |beat|  beats_on_which_to_play.include? beat }
-      @when = @next[@queue]
+      @strategies << L{ |beat| beats_on_which_to_play.include? beat }
+      @when = @next[@strategies]
     end
-    alias :mutate :generate
+    alias :mutate :generate_probability_strategy
   end
 end
