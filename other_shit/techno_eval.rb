@@ -18,7 +18,7 @@ end
 glass_notes = []
 (36..45).each do |midi_note_number|
   glass_notes << Drum.new(:note => glass_note(midi_note_number),
-                          :base_strategy => L{|beat| false},
+                          :external_strategy => L{|beat| false},
                           :number_generator => L{rand},
                           :strategy_select => L{|strategies| strategies[strategies.size - 1]},
                           :probabilities => glass_probabilities[midi_note_number] || glass_probabilities[:maybe])

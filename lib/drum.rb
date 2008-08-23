@@ -1,12 +1,12 @@
 module Archaeopteryx
   class Drum
-    attr_accessor :note, :probabilities, :base_strategy, :strategy_select, :number_generator
+    attr_accessor :note, :probabilities, :external_strategy, :strategy_select, :number_generator
     
     def initialize(attributes)
       %w{note probabilities base_strategy strategy_select number_generator}.each do |attribute|
         eval("@#{attribute} = attributes[:#{attribute}]")
       end
-      @strategies = [attributes[:base_strategy]]
+      @strategies = [attributes[:external_strategy]]
       generate_probability_strategy
     end
     
