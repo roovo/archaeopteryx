@@ -16,7 +16,7 @@ glass_notes = []
   glass_notes << Drum.new(:note => glass_note(midi_note_number, 0),
                           :base_strategy => L{|beat| false},
                           :number_generator => L{rand},
-                          :next => L{|queue| queue[queue.size - 1]},
+                          :strategy_select => L{|queue| queue[queue.size - 1]},
                           :probabilities => glass_probabilities[midi_note_number] || glass_probabilities[:once])
 end
 

@@ -27,7 +27,7 @@ def fill_drums
     fill << Drum.new(:note => note(midi_note_number, [2,3][rand(2)]),
                       :base_strategy => L{|beat| false},
                       :number_generator => L{rand},
-                      :next => L{|queue| queue[rand(queue.size)]},
+                      :strategy_select => L{|queue| queue[rand(queue.size)]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
   end
   fill
@@ -39,7 +39,7 @@ def main_drums
     main << Drum.new(:note => note(midi_note_number),
                       :base_strategy => L{|beat| false},
                       :number_generator => L{0.8},
-                      :next => L{|queue| queue[queue.size - 1]},
+                      :strategy_select => L{|queue| queue[queue.size - 1]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
   end
   main
@@ -51,7 +51,7 @@ def alt_drums
     alt << Drum.new(:note => note(midi_note_number),
                       :base_strategy => L{|beat| false},
                       :number_generator => L{0.9},
-                      :next => L{|queue| queue[queue.size - 1]},
+                      :strategy_select => L{|queue| queue[queue.size - 1]},
                       :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
   end
   alt
