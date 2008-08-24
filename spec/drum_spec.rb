@@ -8,7 +8,7 @@ describe Archaeopteryx::Drum, "general behaviour" do
   
   it "should have the note it was initialized with" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| false },
+                                   :external_strategy => L{ |step| false },
                                    :probabilities     => [1, 1, 1, 1],
                                    :number_generator  => L{1.0},
                                    :strategy_select   => L{ |strategies| strategies[strategies.size - 1] })
@@ -18,7 +18,7 @@ describe Archaeopteryx::Drum, "general behaviour" do
   it "should call the number generator proc once for each entry in the probability array" do
     @number_generator_proc.should_receive(:[]).exactly(5).times.and_return(1.0)
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| false },
+                                   :external_strategy => L{ |step| false },
                                    :probabilities     => [1, 1, 1, 1, 1],
                                    :number_generator  => @number_generator_proc,
                                    :strategy_select   => L{ |strategies| strategies[strategies.size - 1]})
@@ -49,7 +49,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
 
   it "should play every note whatever the probabilities if the :external_strategy proc returns true" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| true },
+                                   :external_strategy => L{ |step| true },
                                    :probabilities     => [1, 0, 1, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[0] })
@@ -61,7 +61,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
   
   it "should play a note on a beat that's greater than the size of the probability matrix if the :external_strategy proc returns true" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| true },
+                                   :external_strategy => L{ |step| true },
                                    :probabilities     => [1, 0, 1, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[0] })
@@ -72,7 +72,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
   
   it "should play no notes at all whatever the probabilities if the :external_strategy proc returns false" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| false },
+                                   :external_strategy => L{ |step| false },
                                    :probabilities     => [1, 0, 1, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[0] })
@@ -85,7 +85,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
   
   it "should NOT play a note on a beat that's greater than the size of the probability matrix if the :external_strategy proc returns false" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => L{ |beat| false },
+                                   :external_strategy => L{ |step| false },
                                    :probabilities     => [1, 0, 1, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[0] })

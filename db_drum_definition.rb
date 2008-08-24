@@ -35,8 +35,8 @@ probabilities[45] = [0.85, 0.35] * 8
 # ((1..6).to_a)[rand(6)] madness
 
 def note(midi_note_number)
-  Note.create(:channel => 2,
-              :number => midi_note_number,
+  Note.create(:channel  => 2,
+              :number   => midi_note_number,
               :duration => 0.25,
               :velocity => 100 + rand(27))
 end
@@ -44,7 +44,7 @@ end
 notes = []
 (36..45).each do |midi_note_number|
   notes << Drum.new(:note               => note(midi_note_number),
-                    :external_strategy      => L{|beat| false},
+                    :external_strategy  => L{|step| false},
                     :number_generator   => L{0.3},
                     :strategy_select    => L{|strategies| strategies[strategies.size - 1]},
                     # :number_generator   => L{rand},

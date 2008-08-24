@@ -24,11 +24,11 @@ end
 def fill_drums
   fill = []
   (36..45).each do |midi_note_number|
-    fill << Drum.new(:note => note(midi_note_number, [2,3][rand(2)]),
-                      :external_strategy => L{|beat| false},
-                      :number_generator => L{rand},
-                      :strategy_select => L{|strategies| strategies[rand(strategies.size)]},
-                      :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
+    fill << Drum.new(:note                => note(midi_note_number, [2,3][rand(2)]),
+                      :external_strategy  => L{|step| false},
+                      :number_generator   => L{rand},
+                      :strategy_select    => L{|strategies| strategies[rand(strategies.size)]},
+                      :probabilities      => @probabilities[midi_note_number] || @probabilities[:none])
   end
   fill
 end
@@ -36,11 +36,11 @@ end
 def main_drums
   main = []
   (36..45).each do |midi_note_number|
-    main << Drum.new(:note => note(midi_note_number),
-                      :external_strategy => L{|beat| false},
-                      :number_generator => L{0.8},
-                      :strategy_select => L{|strategies| strategies[strategies.size - 1]},
-                      :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
+    main << Drum.new(:note                => note(midi_note_number),
+                      :external_strategy  => L{|step| false},
+                      :number_generator   => L{0.8},
+                      :strategy_select    => L{|strategies| strategies[strategies.size - 1]},
+                      :probabilities      => @probabilities[midi_note_number] || @probabilities[:none])
   end
   main
 end
@@ -48,11 +48,11 @@ end
 def alt_drums
   alt = []
   (36..45).each do |midi_note_number|
-    alt << Drum.new(:note => note(midi_note_number),
-                      :external_strategy => L{|beat| false},
-                      :number_generator => L{0.9},
-                      :strategy_select => L{|strategies| strategies[strategies.size - 1]},
-                      :probabilities => @probabilities[midi_note_number] || @probabilities[:none])
+    alt << Drum.new(:note                 => note(midi_note_number),
+                    :external_strategy  => L{|step| false},
+                    :number_generator   => L{0.9},
+                    :strategy_select    => L{|strategies| strategies[strategies.size - 1]},
+                    :probabilities      => @probabilities[midi_note_number] || @probabilities[:none])
   end
   alt
 end
