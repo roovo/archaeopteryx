@@ -150,7 +150,7 @@ module Archaeopteryx
     attr_accessor :note, :probabilities, :external_strategy, :strategy_select, :number_generator
     
     def initialize(attributes)
-      %w{note probabilities base_strategy strategy_select number_generator}.each do |attribute|
+      %w{note external_strategy probabilities number_generator strategy_select}.each do |attribute|
         eval("@#{attribute} = attributes[:#{attribute}]")
       end
       @strategies = [attributes[:external_strategy]]
