@@ -58,7 +58,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
     drum.play?(3).should be_true
   end
   
-  it "should play a note on a beat that's greater than the size of the probability matrix if the :external_strategy proc returns true" do
+  it "should play a note on a beat that's greater than the size of the probability array if the :external_strategy proc returns true" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
                                    :external_strategy => L{ |step| true },
                                    :probabilities     => [1, 0, 1, 0],
@@ -82,7 +82,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
     drum.play?(4).should be_false
   end
   
-  it "should NOT play a note on a beat that's greater than the size of the probability matrix if the :external_strategy proc returns false" do
+  it "should NOT play a note on a beat that's greater than the size of the probability array if the :external_strategy proc returns false" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
                                    :external_strategy => L{ |step| false },
                                    :probabilities     => [1, 0, 1, 0],
@@ -94,7 +94,7 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
   end
 end
 
-describe Archaeopteryx::Drum, "forcing the probability matrix & number generator to determine which notes to play (by setting :strategy_select to 'L{ |strategies| strategies[1] }')" do
+describe Archaeopteryx::Drum, "forcing the probability array & number generator to determine which notes to play (by setting :strategy_select to 'L{ |strategies| strategies[1] }')" do
   
   before(:each) do
     @note = mock("note")
@@ -114,8 +114,7 @@ describe Archaeopteryx::Drum, "forcing the probability matrix & number generator
     drum.play?(4)
   end
   
-  
-  it "should play the notes as defined by the probability matrix & number generator" do
+  it "should play the notes as defined by the probability array & number generator" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
                                    :external_strategy => nil, # irrelevant here as :strategy_select is forcing use of the probabilities
                                    :probabilities     => [1, 0.4999999999, 0.500000000001, 0, 0.5],
@@ -128,7 +127,7 @@ describe Archaeopteryx::Drum, "forcing the probability matrix & number generator
     drum.play?(4).should be_true
   end
   
-  it "should NOT play any notes on beats that are greater than the size of the probability matrix" do
+  it "should NOT play any notes on beats that are beyond the range of the probability array" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
                                    :external_strategy => nil, # irrelevant here as :strategy_select is forcing use of the probabilities
                                    :probabilities     => [1, 0.4999999999, 0.500000000001, 0, 0.5],
@@ -137,5 +136,11 @@ describe Archaeopteryx::Drum, "forcing the probability matrix & number generator
     drum.play?(5).should be_false
     drum.play?(6).should be_false
     drum.play?(7).should be_false
+  end
+end
+
+describe Archaeopteryx::Drum, "mutate" do
+  currently "should do the same as generate_probability_strategy" do
+    pending "I work out what mutate is for"
   end
 end

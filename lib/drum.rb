@@ -8,7 +8,7 @@ module Archaeopteryx
   # the drum to generate:
   # 
   # * a fixed drum pattern (as per a traditional drum sequencer)
-  # * a changing pattern based on a probability matrix
+  # * a changing pattern based on a probability array
   # * a changing pattern controlled by calling a lambda (an external function)
   # * a combination of these two methods
   # 
@@ -35,7 +35,7 @@ module Archaeopteryx
   #   end
   # 
   # This will save two Drums each of which can generate a 16 step sequence.  The drums will trigger 
-  # on the steps where there is a 1.0 in the matrix and not trigger where there is a 0.0.  
+  # on the steps where there is a 1.0 in the array and not trigger where there is a 0.0.  
   # Both drums are on midi channel 2, one on number 36 and one on 37.  
   # 
   # To get the notes which should be triggered from the drum pattern, you should do something along 
@@ -51,7 +51,7 @@ module Archaeopteryx
   # 
   # 
   # 
-  # == Generating a changing pattern based on a probability matrix
+  # == Generating a changing pattern based on a probability array
   # Set up your Drums as follows:
   # 
   #   probabilities[36] = [1.0, 0.0, 0.5, 0.25, 0.0, 0.6, 0.0, 0.9, 0.9, 0.0, 1.0, 0.0, 0.5, 0.0, 0.3, 0.0]
@@ -73,16 +73,16 @@ module Archaeopteryx
   #                       :probabilities      => probabilities[midi_note_number])
   #   end
   # 
-  # Here, some of the values in the probability matrix are between 0.0 and 1.0, and the number_generator 
+  # Here, some of the values in the probability arrays are between 0.0 and 1.0, and the number_generator 
   # lambda has been set to return a random number.  A drum will always trigger an a step where there is a 1.0 
   # and never trigger where there is a 0.0.  For the in-between values, the closer it is to 1 the more 
   # likely it is to trigger.
   # 
-  # The way this works is the :number_generator lambda is called for each step in the matrix and if 
-  # the number in the matrix is greater than or equal to the number it returns then the drum will be
+  # The way this works is the :number_generator lambda is called for each step in the array and if 
+  # the number in the array is greater than or equal to the number it returns then the drum will be
   # triggered for that step.
   # 
-  # The result is a drum pattern that is based on the matrix but will change each time a new pattern
+  # The result is a drum pattern that is based on the array but will change each time a new pattern
   # is generated - cool or what.
   # 
   # == Generating a changing pattern controlled by calling a lambda (an external function)
@@ -112,7 +112,7 @@ module Archaeopteryx
   # you get the idea.  You should use something that returns true or false based on a more rhythmic quality 
   # than a random generator.
   # 
-  # Note that you must still provide a probability matrix even if you are only using the external 
+  # Note that you must still provide a probability array even if you are only using the external 
   # strategy as the drum won't know until run-time which strategy it is supposed to be using.  
   # It just won't matter what you put in it.
   # 
@@ -139,16 +139,16 @@ module Archaeopteryx
   #   end
   # 
   # Here
-  # * the strategy_select lambda randomly chooses either the external strategy or the probability matrix
+  # * the strategy_select lambda randomly chooses either the external strategy or the probability array
   # * the external strategy has been set to never trigger a drum
-  # * the number_generator will produce a random number for use in the probability matrix.
+  # * the number_generator will produce a random number for use in the probability array.
   # 
-  # The result of this is that the pattern will be generated based  on the probability matrix as above but 
-  # this time the drum won't always be triggered according to the probability matrix (e.g. it will not always
-  # trigger on steps where there is a 1.0 in the matrix).
+  # The result of this is that the pattern will be generated based  on the probability array as above but 
+  # this time the drum won't always be triggered according to the probability array (e.g. it will not always
+  # trigger on steps where there is a 1.0 in the array).
   # 
   # This happens as the strategy_select lambda is called for each step.  So if it returns the external 
-  # strategy the drum will not be triggered whatever is contained in the prabability matrix.
+  # strategy the drum will not be triggered whatever is contained in the prabability array.
   # 
   class Drum
     attr_accessor :note, :probabilities, :external_strategy, :strategy_select, :number_generator
@@ -162,7 +162,7 @@ module Archaeopteryx
     # :note<Symbol>:: The note for this drum
     # :external_strategy<lambda>:: a lambda which can be used for triggering drums (see below)
     # :probabilities<Array>:: An array of probabilities with an entry for each step (see above)
-    # :number_generator<lambda>:: An lambda used in the probability matrix strategy (see below)
+    # :number_generator<lambda>:: An lambda used in the probability array strategy (see below)
     # :strategy_select<lambda>:: A lambda used to choose the strategy which should be used to determine if a drum should be triggered
     #
     # ==== :external_strategy
@@ -180,7 +180,7 @@ module Archaeopteryx
     #   # randomly trigger the drum on the step
     #   :external_strategy => L{ |step| [false, true][rand(2)] }
     # 
-    #   # trigger on every 4th beat
+    #   # trigger on every 4th step
     #   :external_strategy => L{ |step| step.modulo(4).zero? }
     # 
     # ==== :number_generator
@@ -191,14 +191,14 @@ module Archaeopteryx
     # ==== :strategy_select
     # This lambda is called each time the play? method is called. The lambda will be passed 
     # an array containing the two strategies available for generating the pattern; the external 
-    # strategy at index 0 and the probability matrix strategy at index 1.  It should return 
+    # strategy at index 0 and the probability array strategy at index 1.  It should return 
     # the strategy to be used on the step.
     # 
     # Examples:
     #   # use the external strategy
     #   :strategy_select => L{ |strategies| strategies[0] }
     # 
-    #   # use the probability matrix strategy
+    #   # use the probability array strategy
     #   :strategy_select => L{ |strategies| strategies[1] }
     # 
     #   # randomly choose one of the two strategies
