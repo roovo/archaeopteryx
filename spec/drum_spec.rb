@@ -33,9 +33,9 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
   end
   
   it "should call the :external_strategy proc for every note that's played (i.e. it's the :external_strategy proc that determines what is played)" do
-    @base_strategy_proc.should_not_receive(:[]).exactly(5).times.and_return(true)
+    @external_strategy_proc.should_receive(:[]).exactly(5).times.and_return(true)
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => @base_strategy_proc,
+                                   :external_strategy => @external_strategy_proc,
                                    :probabilities     => [1, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[0] })
@@ -46,7 +46,6 @@ describe Archaeopteryx::Drum, "forcing the :external_strategy proc to determine 
     drum.play?(4)
   end
   
-
   it "should play every note whatever the probabilities if the :external_strategy proc returns true" do
     drum = Archaeopteryx::Drum.new(:note              => @note, 
                                    :external_strategy => L{ |step| true },
@@ -102,9 +101,9 @@ describe Archaeopteryx::Drum, "forcing the probability matrix & number generator
   end
 
   it "should NOT call the :external_strategy proc (i.e. what is played is not influenced by it)" do
-    @base_strategy_proc.should_not_receive(:[])
+    @external_strategy_proc.should_not_receive(:[])
     drum = Archaeopteryx::Drum.new(:note              => @note, 
-                                   :external_strategy => @base_strategy_proc,
+                                   :external_strategy => @external_strategy_proc,
                                    :probabilities     => [1, 0, 1, 0, 0],
                                    :number_generator  => L{ 0.5 },
                                    :strategy_select   => L{ |strategies| strategies[1] })
