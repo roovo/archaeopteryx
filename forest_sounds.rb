@@ -15,18 +15,21 @@ probabilities[44] = [0.15] * 16
 probabilities[45] = [0.32, 0.23] * 8
 
 def note(midi_note_number, channel)
-  Note.create(:channel => channel,
-              :number => midi_note_number,
+  Note.create(:channel  => channel,
+              :number   => midi_note_number,
               :duration => 0.25,
               :velocity => 100 + rand(27))
 end
 
 notes = []
-(36..45).each do |midi_note_number|
-  notes << Drum.new(:note => note(midi_note_number, 5),
-                    :external_strategy => L{|step| false},
-                    :number_generator => L{rand},
-                    :strategy_select => L{|strategies| strategies[rand(strategies.size)]},
-                    :probabilities => probabilities[midi_note_number] || probabilities[:none])
+<<<<<<< HEAD:forest_sounds.rb
+if rand > 0.85
+  (36..45).each do |midi_note_number|
+    notes << Drum.new(:note               => note(midi_note_number, 5),
+                      :external_strategy  => L{|step| false},
+                      :number_generator   => L{rand},
+                      :strategy_select    => L{|strategies| strategies[rand(strategies.size)]},
+                      :probabilities      => probabilities[midi_note_number] || probabilities[:none])
+  end
 end
 notes
